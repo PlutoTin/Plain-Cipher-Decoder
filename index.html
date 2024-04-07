@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Message Decoder</title>
+</head>
+<body>
+    <h1>Message Decoder</h1>
+    <div>
+        <label>Encrypted Message:</label><br />
+        <textarea id="encryptedMessage" rows="4" cols="50"></textarea>
+    </div>
+    <div>
+        <label>Decryption Key:</label><br />
+        <textarea id="decryptionMapping" rows="4" cols="50" placeholder="Enter substitution pairs separated by comma (e.g., a=b, c=d)"></textarea>
+    </div>
+    <button onclick="decryptMessage()">Decrypt</button>
+    <div>
+        <label>Decrypted Message:</label><br />
+        <textarea id="decryptedMessage" rows="4" cols="50"></textarea>
+    </div>
+    <script>
+        function decryptMessage() {
+            let encryptedMessage = document.getElementById("encryptedMessage").value;
+            let decryptionMappingString = document.getElementById("decryptionMapping").value;
+            let decryptionMapping = {};
+
+            let substitutionPairs = decryptionMappingString.split(',');
+            for(let i = 0; i < substitutionPairs.length; i++) {
+                let substitutionPair = substitutionPairs[i].trim().split('=');
+                if(substitutionPair.length == 2) {
+                    decryptionMapping[substitutionPair[0].trim()] = substitutionPair[1].trim();
+                }
+            }
+            let decryptedMessage = '';
+            for(let i = 0; i < encryptedMessage.length; i++) {
+                let char = encryptedMessage[i];
+                decryptedMessage += decryptionMapping[char] ? decryptionMapping[char] : char;
+            }
+            document.getElementById("decryptedMessage").value = decryptedMessage;
+        }
+    </script>
+</body>
+</html>
